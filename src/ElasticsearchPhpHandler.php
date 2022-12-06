@@ -10,9 +10,9 @@ use Psr\Http\Message\RequestInterface;
 
 class ElasticsearchPhpHandler
 {
-    private $signer;
-    private $credentialProvider;
-    private $wrappedHandler;
+    protected $signer;
+    protected $credentialProvider;
+    protected $wrappedHandler;
 
     /**
      * An AWS Signature V4 signing handler for use with Elasticsearch-PHP and
@@ -48,7 +48,7 @@ class ElasticsearchPhpHandler
         return call_user_func($this->wrappedHandler, $this->createRingRequest($signedRequest));
     }
 
-    private function createPsr7Request(array $ringPhpRequest)
+    protected function createPsr7Request(array $ringPhpRequest)
     {
         // fix for uppercase 'Host' array key in elasticsearch-php 5.3.1 and backward compatible
         // https://github.com/aws/aws-sdk-php/issues/1225
@@ -78,7 +78,7 @@ class ElasticsearchPhpHandler
         );
     }
 
-    private function createRingRequest(RequestInterface $request)
+    protected function createRingRequest(RequestInterface $request)
     {
         $uri = $request->getUri();
         $body = (string) $request->getBody();
